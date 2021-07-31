@@ -87,7 +87,7 @@ class Login_Screen extends StatelessWidget {
              SizedBox(height: 10,),
             ElevatedButton(
                child: Text("Login",),
-               onPressed: () { print("Login"); },
+               onPressed: () { print("Add data"); },
                ),
            ],
          ),
