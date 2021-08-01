@@ -70,7 +70,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                       setState(() {
                         changedButton = true;
                       });
-                      await Future.delayed(Duration(seconds: 1));
+                      await Future.delayed(Duration(seconds: 2));
                        Navigator.pushNamed(context, MyRoutes.homeRoute);
                     },
                   child: AnimatedContainer(
