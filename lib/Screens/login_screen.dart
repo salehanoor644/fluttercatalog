@@ -10,14 +10,32 @@ class Login_Screen extends StatefulWidget {
 
 class _Login_ScreenState extends State<Login_Screen> {
   bool changedButton= false;
+  final _formKey = GlobalKey<FormState>();
+
+  moveToHome(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        changedButton = true;
+      });
+      await Future.delayed(Duration(seconds: 1));
+      Navigator.pushNamed(context, MyRoutes.homeRoute);
+      await Future.delayed(Duration(seconds: 2));
+      Navigator.pushNamed(context, MyRoutes.homeRoute);
+      setState(() {
+        changedButton = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
       child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
         child: Column(
           children: [
-            Image.asset("assets/images/main_top.png",
+            Image.asset("assets/images/login_image1.png",
             fit: BoxFit.cover,),
             SizedBox(height: 10,),
             Text("Welcome", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
@@ -35,14 +53,23 @@ class _Login_ScreenState extends State<Login_Screen> {
                           offset: Offset(0.0, 1.0),
                         )]
                     ),
-                    child: TextField(
+                    child: Column(
+                      children: [
+                        TextFormField(
                       decoration: InputDecoration(
                         hintText: " Enter Email or Phone number",
                         hintStyle: TextStyle(color: Colors.grey),
-
                         border: InputBorder.none,
                       ),
+                      validator: (value) {
+                        if (value!.isEmpty){
+                          return "Email cannot be empty";
+                        }
+                        return null;
+                      },
                     ),
+                  ],
+                  ),
                   ),
                   SizedBox(height: 15,),
                   Container(
@@ -55,28 +82,35 @@ class _Login_ScreenState extends State<Login_Screen> {
                           offset: Offset(1.0, 1.0),
                         )]
                     ),
-                    child: TextField(
+                    child: Column(
+                      children: [
+                        TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: " Enter Password",
                         hintStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                       ),
-                    ),
+                      validator: (value) {
+                          if (value!.isEmpty){
+                            return "Password cannot be empty";
+                          }
+                          else if (value.length<6){
+                           return "Password length should be atleast 6";
+                          }
+                          return null;
+                        },
+                        ),
+                    ],
                   ),
+                   ),
                   SizedBox(height: 40,),
                   InkWell(
-                    onTap: () async {
-                      setState(() {
-                        changedButton = true;
-                      });
-                      await Future.delayed(Duration(seconds: 2));
-                       Navigator.pushNamed(context, MyRoutes.homeRoute);
-                    },
+                    onTap: () => moveToHome(context),
                   child: AnimatedContainer(
-                    duration: Duration(seconds: 3),
+                    duration: Duration(seconds: 2),
                     height: 40,
-                    width: changedButton? 70: 150,
+                    width: changedButton? 50: 150,
                     alignment: Alignment.center,
                     child: changedButton
                       ?Icon( Icons.done, color: Colors.white)
@@ -87,7 +121,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                         fontSize: 18),
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.lightBlueAccent,
+                      color: Colors.deepPurple,
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
@@ -95,13 +129,10 @@ class _Login_ScreenState extends State<Login_Screen> {
                 ],
               ),
             ),
-            Image.asset("assets/images/main_bottom.png",
-            fit: BoxFit.cover,),
-
           ],
         ),
       ),
-
+      ),
     );
   }
 }
