@@ -96,7 +96,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                             return "Password cannot be empty";
                           }
                           else if (value.length<6){
-                           return "Password length should be atleast 6";
+                           return "Password length should be at least 6";
                           }
                           return null;
                         },
